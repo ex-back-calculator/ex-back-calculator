@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://ex-back-calculator.vercel.app/api/og" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="monetag" content="917177da0122c1457e361ec65a4350d6">
-<script src="https://quge5.com/88/tag.min.js" data-zone="291437" async data-cfasync="false"></script>  
+<script src="https://quge5.com/88/tag.min.js" data-zone="291437" async data-cfasync="false"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -123,27 +123,26 @@
 (function () {
   'use strict';
 
-  const SITE_URL    = 'https://ex-back-calculator.vercel.app/';
-  const MONETAG_URL = '';
+  const SITE_URL    = 'https://ex-back-calculator.github.io/';
+  const MONETAG_URL = 'https://uplcm.com/4/11969106';
   const FB_APP_ID   = '291494419107518';
 
-  // प्रतिशत रेन्ज अनुसार ठ्याक्कै म्याच हुने डाइलग डेटाबेस
   const ROASTS = {
-    low: [ // ०% देखि ३०%
+    low: [
       "{myName}, {percent}% मात्र चान्स छ! उसले तँलाई सम्झेर होइन, फेसबुक मेमोरीले सम्झाएको हो।",
       "{percent}% मा आशा मार {myName}! तँ भन्दा तेरो पुरानो चार्जर फर्किने सम्भावना बढी छ।",
       "लौ है {myName}, {percent}% चान्स छ, अब आशा छोड्दे। नयाँ डीपी हेरेर रात काट्ने दिन आयो!",
       "{percent}% को चान्समा {myName}, तेरो म्यासेज इनबक्समा होइन, स्प्याम फोल्डरमा पुगेको होला।",
       "{myName}, ब्लक गरेको छैन भनेर खुसी नमान। {percent}% को हिसाबले उसले नम्बरै बिर्सेको छ।"
     ],
-    medium: [ // ३१% देखि ७०%
+    medium: [
       "{myName}, {percent}% चान्स छ। ऊ फर्किन सक्छ, तर तेरो पुरानो च्याट पढेर मात्र।",
       "५०-५० को खेल हो {myName} ({percent}%)! ऊ म्यासेज गर्न सक्छ, तर पहिले मोमो खुवाउनुपर्ला।",
       "ऊ अलिअलि नरम छ {myName} — {percent}% सिग्नल आइरहेको छ, तर हेयरस्टाइल हेरेपछि मात्र सोच्छ।",
       "{percent}% आशा राख {myName}, तर त्यो आशालाई चिया खुवाएर राख, बेफालतू पोल्न नदे।",
       "उसको मनमा तँप्रति केही छ {myName} ({percent}%), तर त्यो भन्दा बढी उसको नयाँ फोनको लोभ छ।"
     ],
-    high: [ // ७१% देखि १००%
+    high: [
       "{myName}, {percent}% तगडा चान्स! ऊ फर्किन्छ — पुरानो जुत्ता जस्तै, लगाउन मन लाग्छ, गन्ध मात्र सहनुपर्छ।",
       "{percent}% चान्स छ {myName}! ऊ फर्किन्छ, तर पहिले उसको नयाँ साथीलाई 'भाइ' भन्न सिक्नुपर्छ।",
       "{percent}% सम्भावना छ {myName}! ऊ आउँछ, तर तेरो कोठाको फोहोर देखेर फेरि भाग्न सक्छ।",
@@ -272,11 +271,10 @@
     const combined = [myNameRaw.toLowerCase(), exNameRaw.toLowerCase(), mood, breakupTime].join('#');
     const percentage = hashString(combined, 7) % 101;
 
-    // यहाँ प्रतिशतको आधारमा कडा रूपमा क्याटेगोरी छुट्याइएको छ
     const category = getCategory(percentage);
     const pool = ROASTS[category];
     const lineIndex = hashString(combined + '#line', 31) % pool.length;
-    
+
     const finalMessage = fillTemplate(pool[lineIndex], {
       myName: myName,
       percent: percentage
@@ -324,12 +322,28 @@
     els.resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  // ============ DOWNLOAD WITH AD ============
   function downloadResultCard() {
     if (isRendering) return;
+
+    // १) पहिले विज्ञापन खोल्ने (user click भित्रै — popup blocker allow गर्छ)
+    if (MONETAG_URL && MONETAG_URL.indexOf('http') === 0) {
+      safeOpen(MONETAG_URL);
+    }
+
+    // २) अनि कार्ड डाउनलोड गर्ने
     isRendering = true;
     const originalLabel = els.downloadBtn.textContent;
     els.downloadBtn.disabled = true;
     els.downloadBtn.textContent = '⏳ कार्ड बन्दैछ...';
+
+    if (typeof window.html2canvas !== 'function') {
+      showToast('⚠️ डाउनलोड टुल लोड भएन।', 3000);
+      isRendering = false;
+      els.downloadBtn.disabled = false;
+      els.downloadBtn.textContent = originalLabel;
+      return;
+    }
 
     window.html2canvas(els.captureCard, {
       scale: 2,
@@ -338,9 +352,12 @@
       logging: false
     }).then(function (canvas) {
       const link = document.createElement('a');
-      link.download = 'ex-back-chance.png';
+      const safeName = (lastResult.name || 'result').replace(/[^a-zA-Z0-9]/g, '') || 'result';
+      link.download = 'ex-back-chance-' + safeName + '-' + lastResult.percent + 'pc.png';
       link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
       showToast('✅ कार्ड डाउनलोड भयो!', 2000);
     }).catch(function () {
       showToast('❌ कार्ड बनाउन सकिएन।', 3000);
@@ -351,35 +368,80 @@
     });
   }
 
+  // ============ SHARING ============
   function shareToFacebook() {
-    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL), '_blank');
+    const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL);
+    const ok = safeOpen(url);
+    if (!ok) window.location.href = url;
+    else showToast('🌐 Facebook खोल्दैछ...', 1500);
   }
 
   function shareToMessenger() {
-    window.open('https://www.messenger.com/', '_blank');
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      showToast('💬 Messenger खोल्दैछ...', 1500);
+      window.location.href = 'fb-messenger://share/?link=' + encodeURIComponent(SITE_URL);
+      setTimeout(function () {
+        window.location.href = 'https://www.messenger.com/';
+      }, 1200);
+      return;
+    }
+    const dialogUrl =
+      'https://www.facebook.com/dialog/send?link=' + encodeURIComponent(SITE_URL) +
+      '&app_id=' + encodeURIComponent(FB_APP_ID) +
+      '&redirect_uri=' + encodeURIComponent(SITE_URL);
+    const ok = safeOpen(dialogUrl);
+    if (!ok) safeOpen('https://www.messenger.com/');
+    else showToast('💬 Messenger खोल्दैछ...', 1500);
   }
 
   function shareToWhatsApp() {
     const text = '🔥 मेरो एक्स फर्किने चान्स ' + lastResult.percent + '% रहेछ! तपाईं पनि यहाँ चेक गर्नुहोस् 👇 ' + SITE_URL;
-    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+    const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+    const ok = safeOpen(url);
+    if (!ok) window.location.href = url;
+    else showToast('💚 WhatsApp खोल्दैछ...', 1500);
   }
 
   function copyForInstagram() {
-    const text = '💔 मेरो एक्स ब्याक चान्स ' + lastResult.percent + '% आयो! तपाईं पनि चेक गर्नुस्: ' + SITE_URL;
-    navigator.clipboard.writeText(text).then(function () {
-      showToast('📸 लिङ्क कपी भयो!', 2000);
-    });
+    const text = '💔 मेरो एक्स ब्याक चान्स ' + lastResult.percent + '% आयो, पोल खुल्यो! तपाईं पनि चेक गर्नुस्: ' + SITE_URL;
+    const done = function () { showToast('📸 लिङ्क कपी भयो! Instagram मा राख्नुहोस्!', 2500); };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
   }
 
+  function fallbackCopy(text, cb) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { window.prompt('यो लिङ्क कपी गर्नुहोस्:', text); }
+    document.body.removeChild(ta);
+  }
+
+  // ============ RESET ============
   function resetApp() {
     if (isCalculating) return;
     els.myName.value = '';
     els.exName.value = '';
+    els.breakupTime.selectedIndex = 0;
+    els.mood.selectedIndex = 0;
+    lastResult.percent  = 0;
+    lastResult.name     = '';
+    lastResult.category = 'low';
     els.resultBox.classList.add('hidden');
     els.formBox.classList.remove('hidden');
     els.myName.focus();
   }
 
+  // ============ EVENT WIRING ============
   els.calcBtn.addEventListener('click', calculateChance);
   els.downloadBtn.addEventListener('click', downloadResultCard);
   els.shareFb.addEventListener('click', shareToFacebook);
@@ -387,6 +449,15 @@
   els.shareWa.addEventListener('click', shareToWhatsApp);
   els.shareIg.addEventListener('click', copyForInstagram);
   els.resetBtn.addEventListener('click', resetApp);
+
+  [els.myName, els.exName].forEach(function (input) {
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        e.preventDefault();
+        calculateChance();
+      }
+    });
+  });
 })();
 </script>
 </body>
