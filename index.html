@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ex Back Calculator - २०८३ को सबैभन्दा भाइरल लभ क्याल्कुलेटर 🇳🇵</title>
+<meta name="description" content="💔 तपाईंको एक्स फर्किने चान्स कति छ? नाम र मुड हाल्नुस्, पोल खुल्छ! 😂">
+
+<meta property="og:title" content="💔 Ex Back Calculator - २०८३ को सबैभन्दा भाइरल लभ क्याल्कुलेटर" />
+<meta property="og:description" content="अहिले नै चेक गर्नुहोस् र आफ्नो भविष्यको लभ लाइफ थाहा पाउनुहोस्! 🇳🇵" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ex-back-calculator.vercel.app" />
+<meta property="og:image" content="https://ex-back-calculator.vercel.app/api/og" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-4">
+
+  <div class="w-full max-w-md bg-gradient-to-r from-pink-600/20 to-purple-600/20 border border-pink-500/30 rounded-lg p-2 text-center text-xs text-pink-200">
+    🇳🇵 २०८३ को सबैभन्दा भाइरल र अचम्मको क्याल्कुलेटर — नेपालका लागि बनेको
+  </div>
+
+  <div class="max-w-md w-full bg-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700 my-auto">
+    <h1 class="text-2xl font-bold text-center mb-2 text-pink-400">💔 Ex Back Calculator 💘</h1>
+    <p class="text-sm text-slate-400 text-center mb-6">नाम र मुड हाल्नुस्, पोल खुल्छ! 😂</p>
+
+    <div id="form-box" class="space-y-4">
+      <div>
+        <label for="myName" class="block text-xs font-semibold uppercase text-slate-300 mb-1">तपाईंको नाम (Your Name)</label>
+        <input type="text" id="myName" maxlength="30" autocomplete="off"
+               class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-pink-500"
+               placeholder="e.g. Suman">
+      </div>
+
+      <div>
+        <label for="exName" class="block text-xs font-semibold uppercase text-slate-300 mb-1">एक्सको नाम (Ex's Name - 100% Hidden)</label>
+        <input type="text" id="exName" maxlength="30" autocomplete="off"
+               class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-pink-500"
+               placeholder="e.g. Pooja">
+      </div>
+
+      <div>
+        <label for="breakupTime" class="block text-xs font-semibold uppercase text-slate-300 mb-1">ब्रेकअप भएको कति भयो? (Breakup Duration)</label>
+        <select id="breakupTime" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-pink-500">
+          <option value="recent">भर्खरै केही महिना अगाडि (Recent)</option>
+          <option value="year">१ वर्ष जति भयो (Around 1 Year)</option>
+          <option value="long">१ वर्षभन्दा धेरै भइसक्यो (Long Time Ago)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="userMood" class="block text-xs font-semibold uppercase text-slate-300 mb-1">अहिले तपाईंको मुड कस्तो छ? (Your Vibe)</label>
+        <select id="userMood" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-pink-500">
+          <option value="miss">😭 भित्रभित्रै एकदम मिस गरिरहेको छु!</option>
+          <option value="ego">😡 रिस उठेको छ तर माया अझै छ!</option>
+          <option value="fun">🥱 वास्ता छैन, जस्ट फर फन!</option>
+        </select>
+      </div>
+
+      <button id="calcBtn" type="button"
+              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 font-bold py-3 rounded-lg shadow-lg hover:opacity-90 transition disabled:opacity-60 disabled:cursor-wait">
+        फ्याक्ट्स पत्ता लगाउनुहोस् 🚀
+      </button>
+    </div>
+
+    <div id="result-box" class="hidden space-y-4 mt-4">
+      <div id="capture-card" class="bg-gradient-to-br from-slate-900 to-purple-950 p-5 rounded-xl border border-pink-500/30 text-center space-y-3">
+        <h3 class="text-xs uppercase tracking-widest text-pink-400 font-semibold">Ex-Back Mastermind Report</h3>
+        <h2 class="text-base font-bold text-slate-200" id="result-title">🔒 Private Check Result</h2>
+
+        <div class="text-5xl font-extrabold text-pink-400 my-2" id="percentage">0%</div>
+        <div class="text-[11px] font-semibold tracking-wide" id="chance-label"></div>
+
+        <p class="text-xs bg-slate-900/80 p-3 rounded-lg text-slate-300 leading-relaxed" id="prediction-text"></p>
+        <p class="text-[11px] text-slate-400 leading-relaxed" id="extra-text"></p>
+
+        <div class="text-[10px] text-slate-500 pt-2 border-t border-slate-800">
+          🇳🇵 २०८३ • Check yours at: ex-back-calculator.vercel.app
+        </div>
+      </div>
+
+      <button id="downloadBtn" type="button"
+              class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-90 py-3 rounded-lg text-sm font-bold shadow-lg transition disabled:opacity-60 disabled:cursor-wait">
+        📥 रिजल्ट कार्ड डाउनलोड गर्नुहोस् (100% Safe)
+      </button>
+
+      <div class="grid grid-cols-2 gap-2 pt-2">
+        <button id="shareFb" type="button" class="bg-blue-600 hover:bg-blue-700 active:scale-95 py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+          🌐 Facebook Wall
+        </button>
+        <button id="shareMsgr" type="button" class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+          💬 Messenger
+        </button>
+        <button id="shareWa" type="button" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+          💚 WhatsApp
+        </button>
+        <button id="shareIg" type="button" class="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:opacity-90 active:scale-95 py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+          📸 Copy for Insta
+        </button>
+      </div>
+
+      <button id="resetBtn" type="button"
+              class="w-full bg-slate-700 hover:bg-slate-600 py-2 rounded-lg text-xs font-semibold text-slate-300 mt-2">
+        फेरि अर्को चेक गर्नुहोस् 🔄
+      </button>
+    </div>
+  </div>
+
+  <div class="text-xs text-slate-500 text-center">
+    Built with ❤️ by <span class="text-pink-400 font-semibold">नेपाली क्रिएटर सुमन</span> 🇳🇵
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" role="status" aria-live="polite"
+       class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800 border border-pink-500/50 text-white px-4 py-3 rounded-lg shadow-2xl text-sm font-semibold opacity-0 pointer-events-none transition-opacity duration-300 z-50 max-w-[90vw] text-center">
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  const SITE_URL    = 'https://ex-back-calculator.vercel.app/';
+  const MONETAG_URL = '';
+  const FB_APP_ID   = '291494419107518';
+
+  // प्रतिशत रेन्ज अनुसार ठ्याक्कै म्याच हुने डाइलग डेटाबेस
+  const ROASTS = {
+    low: [ // ०% देखि ३०%
+      "{myName}, {percent}% मात्र चान्स छ! उसले तँलाई सम्झेर होइन, फेसबुक मेमोरीले सम्झाएको हो।",
+      "{percent}% मा आशा मार {myName}! तँ भन्दा तेरो पुरानो चार्जर फर्किने सम्भावना बढी छ।",
+      "लौ है {myName}, {percent}% चान्स छ, अब आशा छोड्दे। नयाँ डीपी हेरेर रात काट्ने दिन आयो!",
+      "{percent}% को चान्समा {myName}, तेरो म्यासेज इनबक्समा होइन, स्प्याम फोल्डरमा पुगेको होला।",
+      "{myName}, ब्लक गरेको छैन भनेर खुसी नमान। {percent}% को हिसाबले उसले नम्बरै बिर्सेको छ।"
+    ],
+    medium: [ // ३१% देखि ७०%
+      "{myName}, {percent}% चान्स छ। ऊ फर्किन सक्छ, तर तेरो पुरानो च्याट पढेर मात्र।",
+      "५०-५० को खेल हो {myName} ({percent}%)! ऊ म्यासेज गर्न सक्छ, तर पहिले मोमो खुवाउनुपर्ला।",
+      "ऊ अलिअलि नरम छ {myName} — {percent}% सिग्नल आइरहेको छ, तर हेयरस्टाइल हेरेपछि मात्र सोच्छ।",
+      "{percent}% आशा राख {myName}, तर त्यो आशालाई चिया खुवाएर राख, बेफालतू पोल्न नदे।",
+      "उसको मनमा तँप्रति केही छ {myName} ({percent}%), तर त्यो भन्दा बढी उसको नयाँ फोनको लोभ छ।"
+    ],
+    high: [ // ७१% देखि १००%
+      "{myName}, {percent}% तगडा चान्स! ऊ फर्किन्छ — पुरानो जुत्ता जस्तै, लगाउन मन लाग्छ, गन्ध मात्र सहनुपर्छ।",
+      "{percent}% चान्स छ {myName}! ऊ फर्किन्छ, तर पहिले उसको नयाँ साथीलाई 'भाइ' भन्न सिक्नुपर्छ।",
+      "{percent}% सम्भावना छ {myName}! ऊ आउँछ, तर तेरो कोठाको फोहोर देखेर फेरि भाग्न सक्छ।",
+      "{myName}, {percent}% छ! ऊ फर्किने तयारीमा छ — 'तिम्रो अर्को के भयो?' को जवाफ तयार राख।",
+      "{percent}% नजिक छ {myName}! ऊ आउँछ, तर वालेट र बैंक ब्यालेन्स देखेर प्रेम अलि घट्न सक्छ।"
+    ]
+  };
+
+  const MOOD_NOTES = {
+    miss: "💭 मिस गरिरहेको छस् भने पहिले आफ्नै मन सम्हाल, अनि मात्र म्यासेज टाइप गर।",
+    ego:  "🔥 रिस र माया दुवै छ भने चिसो पानी खा, अनि मात्र 'Seen' मा हात हाल।",
+    fun:  "😎 जस्ट फर फन भन्दै छस्, तर यो रिजल्ट हेर्न त आइहाल्यो नि, हैन?"
+  };
+
+  const TIME_NOTES = {
+    recent: "⏳ ब्रेकअप भर्खरै भएकाले घाउ ताजै छ, हतार नगर।",
+    year:   "📅 एक वर्ष बित्यो, अब ऊ पनि सोचिरहेको हुन सक्छ।",
+    long:   "🕰️ धेरै समय भइसक्यो, पुरानो कुरा पुरानै रहन्छ कि नयाँ सुरुवात हुन्छ, कसले भन्न सक्छ?"
+  };
+
+  const CATEGORY_META = {
+    low:    { label: '🚫 जीरो होप जोन (0% – 30%)',         color: '#38bdf8' },
+    medium: { label: '⚖️ ५०-५० मिक्स्ड सिग्नल (31% – 70%)',    color: '#fbbf24' },
+    high:   { label: '🔥 तगडा चान्स जोन (71% – 100%)',        color: '#f472b6' }
+  };
+
+  function hashString(str, seed) {
+    let h = seed | 0;
+    for (let i = 0; i < str.length; i++) {
+      h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+    }
+    return Math.abs(h);
+  }
+
+  function getCategory(percent) {
+    if (percent <= 30) return 'low';
+    if (percent <= 70) return 'medium';
+    return 'high';
+  }
+
+  function fillTemplate(template, vars) {
+    return template.replace(/\{(\w+)\}/g, function (match, key) {
+      return Object.prototype.hasOwnProperty.call(vars, key) ? String(vars[key]) : '';
+    });
+  }
+
+  function capitalize(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function safeOpen(url) {
+    try {
+      const w = window.open(url, '_blank', 'noopener');
+      return w !== null && typeof w !== 'undefined';
+    } catch (e) { return false; }
+  }
+
+  function validateName(raw, isEx) {
+    const name = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (!name) {
+      return { ok: false, msg: isEx ? 'कृपया एक्सको नाम लेख्नुहोस्! 🚫' : 'कृपया आफ्नो नाम लेख्नुहोस्! 🚫' };
+    }
+    if (name.length < 2) {
+      return { ok: false, msg: 'नाम कम्तीमा २ अक्षरको हुनुपर्छ! ✍️' };
+    }
+    return { ok: true, name: name };
+  }
+
+  let toastTimer = null;
+  function showToast(message, duration) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.style.opacity = '0';
+    }, duration || 2400);
+  }
+
+  const lastResult = { percent: 0, name: '', category: 'low' };
+  let isCalculating = false;
+  let isRendering   = false;
+
+  const $ = function (id) { return document.getElementById(id); };
+
+  const els = {
+    formBox:      $('form-box'),
+    resultBox:    $('result-box'),
+    myName:       $('myName'),
+    exName:       $('exName'),
+    breakupTime:  $('breakupTime'),
+    mood:         $('userMood'),
+    calcBtn:      $('calcBtn'),
+    resultTitle:  $('result-title'),
+    percentage:   $('percentage'),
+    chanceLabel:  $('chance-label'),
+    prediction:   $('prediction-text'),
+    extra:        $('extra-text'),
+    captureCard:  $('capture-card'),
+    downloadBtn:  $('downloadBtn'),
+    shareFb:      $('shareFb'),
+    shareMsgr:    $('shareMsgr'),
+    shareWa:      $('shareWa'),
+    shareIg:      $('shareIg'),
+    resetBtn:     $('resetBtn')
+  };
+
+  function calculateChance() {
+    if (isCalculating) return;
+
+    const myCheck = validateName(els.myName.value, false);
+    if (!myCheck.ok) { alert(myCheck.msg); els.myName.focus(); return; }
+
+    const exCheck = validateName(els.exName.value, true);
+    if (!exCheck.ok) { alert(exCheck.msg); els.exName.focus(); return; }
+
+    const myNameRaw = myCheck.name;
+    const exNameRaw = exCheck.name;
+    const myName = capitalize(myNameRaw);
+
+    const mood = Object.prototype.hasOwnProperty.call(MOOD_NOTES, els.mood.value) ? els.mood.value : 'fun';
+    const breakupTime = Object.prototype.hasOwnProperty.call(TIME_NOTES, els.breakupTime.value) ? els.breakupTime.value : 'recent';
+
+    const combined = [myNameRaw.toLowerCase(), exNameRaw.toLowerCase(), mood, breakupTime].join('#');
+    const percentage = hashString(combined, 7) % 101;
+
+    // यहाँ प्रतिशतको आधारमा कडा रूपमा क्याटेगोरी छुट्याइएको छ
+    const category = getCategory(percentage);
+    const pool = ROASTS[category];
+    const lineIndex = hashString(combined + '#line', 31) % pool.length;
+    
+    const finalMessage = fillTemplate(pool[lineIndex], {
+      myName: myName,
+      percent: percentage
+    });
+
+    const extraParts = [];
+    if (MOOD_NOTES[mood]) extraParts.push(MOOD_NOTES[mood]);
+    if (TIME_NOTES[breakupTime]) extraParts.push(TIME_NOTES[breakupTime]);
+
+    lastResult.percent  = percentage;
+    lastResult.name     = myName;
+    lastResult.category = category;
+
+    isCalculating = true;
+    els.calcBtn.disabled = true;
+    els.calcBtn.textContent = '🔮 भाग्य गणना गर्दै...';
+
+    window.setTimeout(function () {
+      renderResult({
+        name: myName,
+        percent: percentage,
+        category: category,
+        message: finalMessage,
+        extra: extraParts.join(' ')
+      });
+      isCalculating = false;
+      els.calcBtn.disabled = false;
+      els.calcBtn.textContent = 'फ्याक्ट्स पत्ता लगाउनुहोस् 🚀';
+    }, 650);
+  }
+
+  function renderResult(data) {
+    const meta = CATEGORY_META[data.category];
+
+    els.resultTitle.textContent = data.name + ' & [Protected Ex]';
+    els.percentage.textContent  = data.percent + '%';
+    els.percentage.style.color  = meta.color;
+    els.chanceLabel.textContent = meta.label;
+    els.chanceLabel.style.color = meta.color;
+    els.prediction.textContent  = data.message;
+    els.extra.textContent       = data.extra;
+
+    els.formBox.classList.add('hidden');
+    els.resultBox.classList.remove('hidden');
+    els.resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function downloadResultCard() {
+    if (isRendering) return;
+    isRendering = true;
+    const originalLabel = els.downloadBtn.textContent;
+    els.downloadBtn.disabled = true;
+    els.downloadBtn.textContent = '⏳ कार्ड बन्दैछ...';
+
+    window.html2canvas(els.captureCard, {
+      scale: 2,
+      backgroundColor: '#0f172a',
+      useCORS: true,
+      logging: false
+    }).then(function (canvas) {
+      const link = document.createElement('a');
+      link.download = 'ex-back-chance.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('✅ कार्ड डाउनलोड भयो!', 2000);
+    }).catch(function () {
+      showToast('❌ कार्ड बनाउन सकिएन।', 3000);
+    }).then(function () {
+      isRendering = false;
+      els.downloadBtn.disabled = false;
+      els.downloadBtn.textContent = originalLabel;
+    });
+  }
+
+  function shareToFacebook() {
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL), '_blank');
+  }
+
+  function shareToMessenger() {
+    window.open('https://www.messenger.com/', '_blank');
+  }
+
+  function shareToWhatsApp() {
+    const text = '🔥 मेरो एक्स फर्किने चान्स ' + lastResult.percent + '% रहेछ! तपाईं पनि यहाँ चेक गर्नुहोस् 👇 ' + SITE_URL;
+    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+  }
+
+  function copyForInstagram() {
+    const text = '💔 मेरो एक्स ब्याक चान्स ' + lastResult.percent + '% आयो! तपाईं पनि चेक गर्नुस्: ' + SITE_URL;
+    navigator.clipboard.writeText(text).then(function () {
+      showToast('📸 लिङ्क कपी भयो!', 2000);
+    });
+  }
+
+  function resetApp() {
+    if (isCalculating) return;
+    els.myName.value = '';
+    els.exName.value = '';
+    els.resultBox.classList.add('hidden');
+    els.formBox.classList.remove('hidden');
+    els.myName.focus();
+  }
+
+  els.calcBtn.addEventListener('click', calculateChance);
+  els.downloadBtn.addEventListener('click', downloadResultCard);
+  els.shareFb.addEventListener('click', shareToFacebook);
+  els.shareMsgr.addEventListener('click', shareToMessenger);
+  els.shareWa.addEventListener('click', shareToWhatsApp);
+  els.shareIg.addEventListener('click', copyForInstagram);
+  els.resetBtn.addEventListener('click', resetApp);
+})();
+</script>
+</body>
+</html>
