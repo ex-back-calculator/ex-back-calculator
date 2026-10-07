@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ex-back-calculator.github.io/en/sitemap.xml
